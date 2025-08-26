@@ -1,0 +1,28 @@
+# General Neovim files to ignore
+*.swp
+*.swo
+*~
+.DS_Store
+undodir/
+spell/
+
+# lazy.nvim
+/lazy-lock.json  # Optional: some people commit this, some don't.
+                 # Not committing it means you always get the latest plugins on a new clone.
+                 # Committing it ensures your setup is perfectly reproducible.
+/lazy/
+
+# If you use packer.nvim
+/pack/
+/plugin/packer_compiled.lua
+
+# If you use vim-plug
+/plugged/
+
+# Logs and session data
+*.log
+sessions/
+
+# Any local or machine-specific settings
+local.lua
+local_*.lua
