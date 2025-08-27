@@ -36,6 +36,30 @@ return require('packer').startup(function(use)
         },
     }
 
+    -- Mason manages LSP binaries
+    use {
+        'williamboman/mason.nvim',
+        config = function()
+            require('mason').setup()
+        end
+    }
+
+    -- Core LSP
+    use {
+        'neovim/nvim-lspconfig',
+    }
+
+    -- NVIM Auto Complete
+    use {
+        "hrsh7th/nvim-cmp",
+        requires = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "L3MON4D3/LuaSnip"
+        }
+    }
+
 -- FOR ANOTHER DAY
 --    -- Lentils Generated HipFire for multi directory fuzzyfind hot list
 --    use {
@@ -55,5 +79,6 @@ return require('packer').startup(function(use)
 --            -- vim.keymap.set('n', '<leader>FG', function() require("HipFire").live_grep() end, { desc = "SideScope: Live Grep" })
 --        end
 --    }
+
 end)
 
