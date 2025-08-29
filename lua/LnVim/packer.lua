@@ -88,6 +88,17 @@ return require('packer').startup(function(use)
         tag = 'v2.*',
     }
 
+    -- LazyGit Inteagration 
+    use {
+        "kdheepak/lazygit.nvim",
+        config = function()
+            require("lazygit").setup({
+                direction = "float",
+                float_opts = { border = "rounded" },
+            })
+        end
+    }
+
 -- FOR ANOTHER DAY
 --    -- Lentils Generated HipFire for multi directory fuzzyfind hot list
 --    use {

@@ -24,6 +24,22 @@ local on_attach = function(client, bufnr)
     -- Keymaps for navigating diagnostics (errors, warnings)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+
+    -- Toggle the line or text diagnostic messages
+    vim.keymap.set('n', '<leader>gn', function()
+        local current = vim.diagnostic.config()
+        if current.virtual_text then
+            vim.diagnostic.config({
+                virtual_text = false,
+                virtual_lines = true
+            })
+        else
+            vim.diagnostic.config({
+                virtual_text = true,
+                virtual_lines = false
+            })
+        end
+    end, opts)
 end
 
 
@@ -66,6 +82,15 @@ function M.setup()
     -- lspconfig.tsserver.setup({ ... })
 
 end
+
+
+-- Part 3: Setup the the visuals for when editing
+vim.diagnostic.config({
+  virtual_text = true,      -- turn off inline text
+  virtual_lines = false,      -- show full diagnostics as virtual lines below
+  signs = true,
+  underline = true,
+})
 
 -- This line makes the M.setup() function available to other files
 return M

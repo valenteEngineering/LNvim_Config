@@ -6,8 +6,8 @@ winPicker.setup({
     show_prompt = true,
     prompt_message = 'Pick window: ',
     filter_rules = {
-        autoselect_one = false,
-        include_current_win = true,
+        autoselect_one = true,
+        include_current_win = false,
         bo = {
             filetype = { 'NvimTree', 'neo-tree', 'notify' },
             buftype = { 'terminal' },
