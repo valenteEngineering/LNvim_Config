@@ -39,6 +39,7 @@ local function toggle_telescope(harpoon_files)
     }):find()
 end
 
-vim.keymap.set("n", "<C-/>", function()
+-- Lentil keymap for opening list
+vim.keymap.set("n", "<C-\\>", function()
     toggle_telescope(harpoon:list())
 end, { desc = "Harpoon: Open menu" })

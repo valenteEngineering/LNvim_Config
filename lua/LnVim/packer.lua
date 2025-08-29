@@ -16,7 +16,7 @@ return require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
-    use('nvim-treesitter/playground')
+    use 'nvim-treesitter/playground'
 
     -- Harpoon for saving file locations for fast recal
     use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
@@ -25,6 +25,7 @@ return require('packer').startup(function(use)
         branch = "harpoon2",
         requires = { {"nvim-lua/plenary.nvim"} }
     }
+
     -- UndoTree for local version control change management
     use('mbbill/undotree')
 
@@ -32,7 +33,7 @@ return require('packer').startup(function(use)
     use {
         'nvim-tree/nvim-tree.lua',
         requires = {
-            'nvim-tree/nvim-web-devicons', 
+            'nvim-tree/nvim-web-devicons',
         },
     }
 
@@ -45,9 +46,10 @@ return require('packer').startup(function(use)
     }
 
     -- Core LSP
-    use {
-        'neovim/nvim-lspconfig',
-    }
+    use 'neovim/nvim-lspconfig'
+
+    -- Default Config Files
+    use 'neovim/nvim-lspconfig'
 
     -- NVIM Auto Complete
     use {
@@ -58,6 +60,32 @@ return require('packer').startup(function(use)
             "hrsh7th/cmp-path",
             "L3MON4D3/LuaSnip"
         }
+    }
+
+    -- Which key to view options after hitting leader key
+    use 'folke/which-key.nvim'
+    -- mini icons for which-key
+    use {
+        "echasnovski/mini.icons",
+        config = function()
+            require("mini.icons").setup()
+        end,
+    }
+
+
+    -- Window split resize manager
+    use {
+        "anuvyklack/windows.nvim",
+        requires = "anuvyklack/middleclass",
+        config = function()
+            require('windows').setup()
+        end,
+    }
+
+    -- Window picker for fast changing
+    use {
+        's1n7ax/nvim-window-picker',
+        tag = 'v2.*',
     }
 
 -- FOR ANOTHER DAY

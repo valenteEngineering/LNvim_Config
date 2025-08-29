@@ -8,13 +8,16 @@ local nvim_tree_api = require("nvim-tree.api")
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' })
 
+
+-- LENTIL IMPLEMENTAION OF PROJECT SIDESCOPE FOR DIR BASE FF AND FG
 -- Define your project's important directories.
 local project_hotlist = {
-    { display = "KERNEL SOURCE", path = "/home/alexval/PycharmProjects/ParkSense" },
---    { display = "BUILD CONF",    path = "/home/alexval/yocto/build/conf" },
---    { display = "CUSTOM LAYER",  path = "/home/alexval/yocto/meta-custom" },
---    { display = "U-BOOT",        path = "/home/alexval/yocto/u-boot" },
+    { display = "YOCTO_BUILD_DIR", path = "/home/alexvalente/CompulabQtYocto/build-imx8mm-lpddr4-evk/tmp/deploy/images/imx8mm-lpddr4-evk" },
+    { display = "YOCTO_KERNEL_DIR",    path = "/home/alexvalente/CompulabQtYocto/build-imx8mm-lpddr4-evk/tmp/work-shared/imx8mm-lpddr4-evk/kernel-source" },
+    { display = "ATTOLLO_META_LAYER",  path = "/home/alexvalente/CompulabQtYocto/sources/meta-attolloVasRf" },
+    { display = "YOCTO_MEDIA_DRIVERS",        path = "/home/alexvalente/CompulabQtYocto/build-imx8mm-lpddr4-evk/tmp/work-shared/imx8mm-lpddr4-evk/kernel-source/drivers/media" },
 }
 
 -- The standard hotlist picker function (for changing directory)
@@ -48,7 +51,6 @@ local function project_hotlist_picker()
 end
 
 
--- [[ <<< THE NEW GENERIC WORKFLOW GENERATOR >>> ]]
 -- This function takes a config and returns a new function that runs our workflow
 local function create_scoped_picker_workflow(config)
     local workflow_func = nil -- Forward declare for recursion
@@ -87,11 +89,11 @@ local function create_scoped_picker_workflow(config)
 
                                 -- This logic works for both find_files and live_grep results
                                 local file_path = file_selection.filename or file_selection.value
-                                
+
                                 vim.cmd.cd(search_dir)
                                 nvim_tree_api.tree.change_root(search_dir)
                                 vim.cmd.edit(file_path)
-                                
+
                                 -- If it's a grep result, go to the correct line
                                 if file_selection.lnum then
                                     vim.api.nvim_win_set_cursor(0, { file_selection.lnum, 0 })
