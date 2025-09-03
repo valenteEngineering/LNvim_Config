@@ -26,7 +26,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 
     -- Toggle the line or text diagnostic messages
-    vim.keymap.set('n', '<leader>gn', function()
+    vim.keymap.set('n', '<leader>td', function()
         local current = vim.diagnostic.config()
         if current.virtual_text then
             vim.diagnostic.config({
@@ -91,6 +91,22 @@ vim.diagnostic.config({
   signs = true,
   underline = true,
 })
+
+-- Add border to hover
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover,
+  {
+    border = "rounded", -- you can also use "single", "double", "shadow", or a table
+  }
+)
+
+-- Add border to signatureHelp (optional, if you want consistency)
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  {
+    border = "rounded",
+  }
+)
 
 -- This line makes the M.setup() function available to other files
 return M
