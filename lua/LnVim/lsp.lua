@@ -77,6 +77,12 @@ function M.setup()
       capabilities = capabilities,
     })
 
+    -- DTS
+    lspconfig.ginko_ls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
+
     -- You can add more servers here in the future
     -- lspconfig.gopls.setup({ ... })
     -- lspconfig.tsserver.setup({ ... })
