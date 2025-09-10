@@ -2,7 +2,7 @@
 require("toggleterm").setup({
   direction = 'horizontal',
   shell = vim.o.shell,
-  open_mapping = [[<c-t>]],
+  open_mapping = [[<c-t>]], 
   close_on_exit = true,
   start_in_insert = true,
   persist_mode = true,
@@ -23,26 +23,6 @@ require("toggleterm").setup({
 -- 2. Define custom terminals for frequent tasks
 local Terminal = require('toggleterm.terminal').Terminal
 
--- Lazygit Terminal
-local lazygit = Terminal:new({
-  cmd = "lazygit",
-  dir = vim.fn.getcwd(),
-  direction = "float",
-  hidden = true, -- Hide from the default ToggleTerm command
-  on_open = function(term)
-    vim.cmd("startinsert!")
-    -- Close lazygit with 'q'
-    vim.api.nvim_buf_set_keymap(term.bufnr, 'n', 'q', '<cmd>close<CR>', {noremap = true, silent = true})
-  end,
-})
-
--- Node REPL Terminal
-local node = Terminal:new({
-  cmd = "node",
-  hidden = true,
-  direction = "float",
-})
-
 -- 3. Create the keymaps
 local keymap = vim.keymap
 
@@ -51,28 +31,57 @@ keymap.set("n", "<leader>t", "<cmd>ToggleTerm<CR>", { desc = "ToggleTerm: Toggle
 keymap.set("n", "<leader>ft", "<cmd>ToggleTerm direction=float<CR>", { desc = "ToggleTerm: Floating" })
 keymap.set("n", "<leader>vt", "<cmd>ToggleTerm direction=vertical<CR>", { desc = "ToggleTerm: Vertical" })
 keymap.set("n", "<leader>ht", "<cmd>ToggleTerm direction=horizontal<CR>", { desc = "ToggleTerm: Horizontal" })
-
--- Example of Custom terminal toggles
---keymap.set("n", "<leader>gg", function() lazygit:toggle() end, { desc = "ToggleTerm: Lazygit" })
---keymap.set("n", "<leader>nn", function() node:toggle() end, { desc = "ToggleTerm: Node REPL" })
+keymap.set("n", "<leader>tt", function()
+  local dir = vim.fn.expand("%:p:h") -- current file’s directory
+  require("toggleterm.terminal").Terminal
+    :new({ dir = dir, direction = "horizontal" })
+    :toggle()
+end, { desc = "ToggleTerm: Open NEW terminal in file directory" })
 
 -- 4. Define keymaps for use inside the terminal window
 function set_terminal_keymaps()
     local opts = { buffer = 0 }
     -- Exit terminal mode
     keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-    keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
     -- Navigate between windows
     keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
     keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
     keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
     keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
 
-    keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-    keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-    keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-    keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+    keymap.set('t', '<C-Left>', [[<Cmd>wincmd h<CR>]], opts)
+    keymap.set('t', '<C-Down>', [[<Cmd>wincmd j<CR>]], opts)
+    keymap.set('t', '<C-Up>', [[<Cmd>wincmd k<CR>]], opts)
+    keymap.set('t', '<C-Right>', [[<Cmd>wincmd l<CR>]], opts)
 end
 
 -- Set the keymaps when a terminal is opened
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+
+-- Stop NvimTree from stealing focus when ToggleTerm is opened
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "term://*",
+  callback = function()
+    -- Find the NvimTree window
+    local nvim_tree_win = nil
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf_name = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win))
+      if buf_name:match("NvimTree_") then
+        nvim_tree_win = win
+        break
+      end
+    end
+
+    -- If NvimTree window is found, prevent it from being focused
+    if nvim_tree_win then
+      vim.cmd("noautocmd wincmd p") -- Switch to previous window without triggering autocommands
+      vim.cmd("wincmd p") -- Switch back to the terminal window
+    end
+    -- Optional: a more direct way to ensure focus stays on the terminal
+    -- This might be needed if the above doesn't work consistently
+    vim.cmd('startinsert')
+  end,
+  desc = "Prevent NvimTree from stealing focus from ToggleTerm"
+})
+
