@@ -26,3 +26,7 @@ sessions/
 # Any local or machine-specific settings
 local.lua
 local_*.lua
+lazy-lock.json
+lazy-lock.json
+.exrc
+lazy-lock.json

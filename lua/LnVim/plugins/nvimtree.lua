@@ -12,6 +12,20 @@ vim.api.nvim_create_autocmd("UIEnter", {
   end,
 })
 
+
+-- It's good practice to define the on_attach function first
+function on_attach(bufnr)
+  local api = require("nvim-tree.api")
+
+  -- This is the recommended way to apply the default mappings.
+  -- We do this first so we can then selectively disable one.
+  api.config.mappings.default_on_attach(bufnr)
+
+  -- Now, we can remove the mapping that we don't want.
+  -- This line is the key to the solution.
+  vim.keymap.del("n", "<c-t>", { buffer = bufnr })
+end
+
 nvimtree.setup ({
     sort = {
         sorter = "case_sensitive",
@@ -20,10 +34,12 @@ nvimtree.setup ({
         width = 30,
     },
 
+    on_attach = on_attach,
+
     -- This tells nvim-tree to monitor the current file and fire the event when ready.
     update_focused_file = {
         enable = true,
-        update_cwd = true, -- Optional, but useful: changes the tree's root to the file's directory
+        update_root = true, -- Optional, but useful: changes the tree's root to the file's directory
     },
 })
 

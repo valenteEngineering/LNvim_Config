@@ -18,7 +18,7 @@ winPicker.setup({
     include_current_win = false,
     bo = {
       filetype = { "NvimTree", "neo-tree", "notify" },
-      buftype = { "terminal" },
+      buftype = { },
     },
   },
   highlights = {

@@ -1,4 +1,5 @@
 -- ~/.config/nvim/lua/LnVim/lazy.lua
+-- :w jsut a test:will
 
 -- This is the bootstrap script for lazy.nvim.
 -- It will automatically install lazy.nvim if it's not already present.
@@ -212,6 +213,46 @@ require("lazy").setup({
             require("LnVim.plugins.lualine")
         end,
     },
+
+    -- Terminal Layout Tool toggleterm
+    {
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        config = function ()
+            require("LnVim.plugins.toggleterm")
+        end
+    },
+
+    -- Terminal manager
+    {
+        "ryanmsnyder/toggleterm-manager.nvim",
+        dependencies = {
+            "akinsho/nvim-toggleterm.lua",
+            "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim", -- only needed because it's a dependency of telescope
+        },
+        config = true,
+    },
+
+    -- SSHFS Manager 
+    {
+        "nosduco/remote-sshfs.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+        config = function()
+            require("LnVim.plugins.sshfs")
+        end,
+    },
+
+    -- Session manager
+    {
+        "Shatur/neovim-session-manager",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require("LnVim.plugins.sessionmanager")
+        end,
+    },
+
+    -- Projcet manager
 
 })
 
