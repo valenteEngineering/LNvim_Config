@@ -114,6 +114,26 @@ require("lazy").setup({
         'neovim/nvim-lspconfig',
     },
 
+    -- LINTING
+    {
+        "mfussenegger/nvim-lint",
+        event = "VeryLazy", -- Load it when needed
+        config = function()
+            -- We will create this file in the next step
+            require("LnVim.lsp.lint")
+        end
+    },
+
+    -- FORMATTING
+    {
+        'stevearc/conform.nvim',
+        event = "VeryLazy", -- Load it when needed
+        config = function()
+            -- We will create this file in the next step
+            require("LnVim.lsp.conform")
+        end
+    },
+
     -- Autocompletion
     {
         'hrsh7th/nvim-cmp',

@@ -22,6 +22,7 @@ function M.setup()
     local servers = {
         "lua_ls",
         "clangd",
+        "pyright",
         -- Add other servers here, for example: "pyright", "rust_analyzer"
     }
 
@@ -33,12 +34,21 @@ function M.setup()
     end
 
     -- Step 5: Configure mason and mason-lspconfig.
-    -- This is the final step that ties everything together.
-    require("mason").setup()
+    -- 2. CONFIGURE MASON TO INSTALL YOUR TOOLS
+    require("mason").setup({
+        -- This is where you tell Mason what tools to install.
+        -- We add ruff here. Pyright will be handled by mason-lspconfig.
+        ensure_installed = {
+            "ruff",   -- For Python linting and formatting
+            "stylua", -- Optional: for formatting Lua code
+        }
+    })
+
+    -- 3. CONFIGURE MASON-LSPCONFIG
+    -- This ensures the servers in your `servers` list are installed
+    -- and automatically configured for nvim-lspconfig.
     require("mason-lspconfig").setup({
         ensure_installed = servers,
-        -- `automatic_enable` is true by default, which is what we want.
-        -- It will automatically start the LSPs for the correct filetypes.
     })
 end
 
