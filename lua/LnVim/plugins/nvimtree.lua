@@ -36,6 +36,12 @@ nvimtree.setup ({
 
     on_attach = on_attach,
 
+    git = {
+        enable = true,
+        ignore = false,
+        timeout = 400,
+    },
+
     -- This tells nvim-tree to monitor the current file and fire the event when ready.
     update_focused_file = {
         enable = true,

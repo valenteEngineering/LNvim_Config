@@ -31,6 +31,12 @@ telescope.setup({
         }
 
     },
+
+    pickers = {
+        find_files = {
+            find_command = { 'rg', '--files', '--no-ignore-vcs', '--hidden'},
+        },
+    },
 })
 telescope.load_extension("ui-select")
 
@@ -56,6 +62,7 @@ vim.keymap.set("n", "<leader>ff", map_split_actions(builtin.find_files), { desc 
 vim.keymap.set("n", "<leader>fg", map_split_actions(builtin.live_grep), { desc = "Telescope: Live grep" })
 vim.keymap.set("n", "<leader>fb", map_split_actions(builtin.buffers), { desc = "Telescope: Buffers" })
 vim.keymap.set("n", "<leader>fk", map_split_actions(builtin.keymaps), { desc = "Telescope: Keymaps" })
+vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Telescope: Diagnostics" })
 vim.keymap.set("n", "<leader>cc", map_split_actions(builtin.colorscheme), { desc = "Telescope: Colorscheme" })
 
 

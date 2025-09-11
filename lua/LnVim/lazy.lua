@@ -88,16 +88,30 @@ require("lazy").setup({
 
 
     -- LSP Support
+    -- NOTE: We have broken this into three separate plugin definitions
+    -- to ensure they load and configure in the correct order.
+
+    -- 1. MASON: Manages our LSPs, DAP, Linters, etc.
+    {
+        'williamboman/mason.nvim',
+        config = function()
+            require("mason").setup()
+        end,
+    },
+
+    -- 2. MASON-LSPCONFIG: The bridge between Mason and lspconfig.
+    {
+        'williamboman/mason-lspconfig.nvim',
+        event = "VeryLazy",
+        dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
+        config = function()
+            require("LnVim.lsp").setup() -- This calls your lsp/init.lua file
+        end,
+    },
+
+    -- 3. NVIM-LSPCONFIG: The core LSP configuration library.
     {
         'neovim/nvim-lspconfig',
-        dependencies = {
-            -- Automatically install LSPs to stdpath for neovim
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-        },
-        config = function()
-            require("LnVim.plugins.lsp")
-        end
     },
 
     -- Autocompletion
@@ -105,7 +119,10 @@ require("lazy").setup({
         'hrsh7th/nvim-cmp',
         dependencies = {
             -- Snippet Engine & its source for nvim-cmp
-            'L3MON4D3/LuaSnip',
+            {
+                'L3MON4D3/LuaSnip',
+                dependencies = { "rafamadriz/friendly-snippets" } -- <<< ADD THIS LINE
+            },
             'saadparwaiz1/cmp_luasnip',
 
             -- Adds LSP completion capabilities
@@ -116,6 +133,9 @@ require("lazy").setup({
             'hrsh7th/cmp-path',
         },
         config = function()
+            -- Make sure friendly-snippets are loaded
+            require("luasnip.loaders.from_vscode").lazy_load()
+            require("luasnip.loaders.from_snipmate").lazy_load()
             require("LnVim.plugins.cmp")
         end
     },

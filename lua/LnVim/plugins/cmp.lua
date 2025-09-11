@@ -45,5 +45,18 @@ cmp.setup({
         { name = 'luasnip' },
         { name = 'buffer' },
         { name = 'path' },
-    })
+    }),
+
+    experimental = {
+        ghost_text = true,
+    },
+    -- Configure the window appearance with double borders
+    window = {
+        completion = {
+            border = 'double'
+        },
+        documentation = {
+            border = 'double'
+        },
+    },
 })
