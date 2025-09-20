@@ -5,9 +5,6 @@ local lint = require("lint")
 
 lint.linters_by_ft = {
     python = { "ruff" },
-    cpp = { "clang-tidy" },
-    c = { "clang-tidy" }
-
     -- You can add other languages here
     -- lua = { "luacheck" }
 }

@@ -5,21 +5,21 @@
 -- It will automatically install lazy.nvim if it's not already present.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- Use the stable branch for reliability
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- Use the stable branch for reliability
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
 -- This is the main setup call for lazy.nvim.
 require("lazy").setup({
 
-    -- TELESCOPE, fuzzy finding for files + more 
+    -- TELESCOPE, fuzzy finding for files + more
     {
         "nvim-telescope/telescope.nvim",
         dependencies = {
@@ -32,9 +32,32 @@ require("lazy").setup({
         end,
     },
 
-    -- Treesitter for code highlighting + Playground 
+    -- Manager for ssh
     {
-        "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate",
+        'epheien/conn-manager.nvim',
+        cmd = 'ConnManager',
+        config = function()
+            require('conn-manager').setup({
+                config_file = vim.fs.joinpath(vim.fn.stdpath('config') --[[@as string]], 'conn-manager.json'),
+                window_config = {
+                    width = 36,
+                    split = 'left',
+                    vertical = true,
+                    win = -1,
+                },
+                on_window_open = function(win)
+                    vim.api.nvim_set_option_value('fillchars', vim.o.fillchars .. ',eob: ', { win = win })
+                end,
+            })
+        end,
+    },
+
+    -- Treesitter for code highlighting + Playground
+    {
+        "nvim-treesitter/nvim-treesitter",
+        branch = 'master',
+        lazy = false,
+        build = ":TSUpdate",
         "nvim-treesitter/playground",
     },
 
@@ -240,7 +263,7 @@ require("lazy").setup({
         },
         -- Need to move keymap here as this will lazyload the plugin when called
         keys = {
-            {"<leader>gg", "<cmd>LazyGit<CR>", desc = "LazyGit: Open" }
+            { "<leader>gg", "<cmd>LazyGit<CR>", desc = "LazyGit: Open" }
 
         },
     },
@@ -258,7 +281,7 @@ require("lazy").setup({
     {
         'akinsho/toggleterm.nvim',
         version = "*",
-        config = function ()
+        config = function()
             require("LnVim.plugins.toggleterm")
         end
     },
@@ -274,7 +297,7 @@ require("lazy").setup({
         config = true,
     },
 
-    -- SSHFS Manager 
+    -- SSHFS Manager
     {
         "nosduco/remote-sshfs.nvim",
         dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
@@ -295,4 +318,3 @@ require("lazy").setup({
     -- Projcet manager
 
 })
-
