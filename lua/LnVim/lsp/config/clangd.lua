@@ -1,5 +1,6 @@
 -- ~/.config/nvim/lua/LnVim/lsp/servers/clangd.lua
 
+
 -- This file now directly configures the server using the native API.
 -- It will automatically inherit the global on_attach and capabilities.
 
