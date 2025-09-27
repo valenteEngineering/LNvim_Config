@@ -63,6 +63,22 @@ require("lazy").setup({
 
     -- Huez Theme Manager - todo!
     {
+        "scottmckendry/cyberdream.nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require("cyberdream").setup({
+                -- optional configuration
+                transparent = false,
+                italic_comments = true,
+                hide_fillchars = true,
+                borderless_telescope = true,
+            })
+        end,
+    },
+
+
+    {
         "vague2k/huez.nvim",
         -- if you want registry related features, uncomment this
         import = "huez-manager.import",
