@@ -21,8 +21,10 @@ function M.setup()
     -- This list is used by mason-lspconfig to ensure they are installed.
     local servers = {
         "lua_ls",
+        "stylua",
         "clangd",
         "pyright",
+        "ruff"
         -- Add other servers here, for example: "pyright", "rust_analyzer"
     }
 
@@ -35,14 +37,7 @@ function M.setup()
 
     -- Step 5: Configure mason and mason-lspconfig.
     -- 2. CONFIGURE MASON TO INSTALL YOUR TOOLS
-    require("mason").setup({
-        -- This is where you tell Mason what tools to install.
-        -- We add ruff here. Pyright will be handled by mason-lspconfig.
-        ensure_installed = {
-            "ruff",   -- For Python linting and formatting
-            "stylua", -- Optional: for formatting Lua code
-        }
-    })
+    require("mason").setup({})
 
     -- 3. CONFIGURE MASON-LSPCONFIG
     -- This ensures the servers in your `servers` list are installed
