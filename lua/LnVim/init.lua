@@ -5,7 +5,6 @@ require("LnVim.set")
 -- System Clipboard
 vim.o.clipboard = "unnamedplus"
 
-
 -- Plugin Manager
 require("LnVim.lazy")
 
@@ -19,22 +18,22 @@ vim.g.loaded_netrwPlugin = 1
 -- enable 24-bit colour
 vim.opt.termguicolors = true
 
-vim.cmd.colorscheme("cyberdream")
+vim.cmd.colorscheme("everforest")
 
 -- Add your global border customizations AFTER the colorscheme
 local border_color = "#FF8C00" -- A nice orange, change to your liking
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = border_color })
 
 vim.api.nvim_set_hl(0, "StatusLine", {
-    fg = "#ffffff",
-    bg = "#1e1e2e",
-    underline = true,
-    sp = "#FF8C00",
+	fg = "#ffffff",
+	bg = "#1e1e2e",
+	underline = true,
+	sp = "#FF8C00",
 })
 
 vim.api.nvim_set_hl(0, "StatusLineNC", {
-    fg = "#aaaaaa",
-    bg = "#1e1e2e",
-    underline = true,
-    sp = "#FF8C00",
+	fg = "#aaaaaa",
+	bg = "#1e1e2e",
+	underline = true,
+	sp = "#FF8C00",
 })
