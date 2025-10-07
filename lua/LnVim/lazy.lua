@@ -124,6 +124,9 @@ require("lazy").setup({
 		config = function()
 			require("LnVim.plugins.nvimtree")
 		end,
+		hijack_directories = {
+			enable = false,
+		},
 	},
 
 	-- LSP Support
@@ -310,7 +313,7 @@ require("lazy").setup({
 		},
 	},
 
-	-- Status line plugin to make it look better
+	-- status line plugin to make it look better
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },

@@ -37,3 +37,21 @@ vim.api.nvim_set_hl(0, "StatusLineNC", {
 	underline = true,
 	sp = "#FF8C00",
 })
+
+-- In init.lua
+vim.api.nvim_create_autocmd("VimEnter", {
+	pattern = "*",
+	callback = function()
+		if vim.bo.filetype == "NvimTree" then
+			-- Find the next available window that is not nvim-tree and focus it
+			local windows = vim.api.nvim_list_wins()
+			for _, win in ipairs(windows) do
+				local buf = vim.api.nvim_win_get_buf(win)
+				if vim.bo[buf].filetype ~= "NvimTree" then
+					vim.api.nvim_set_current_win(win)
+					return
+				end
+			end
+		end
+	end,
+})

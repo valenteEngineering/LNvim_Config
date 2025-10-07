@@ -71,7 +71,7 @@ function M.setup()
 		end
 
 		if build_cmd ~= "" then
-			local term_cmd = string.format('TermExec cmd="%s" dir=%s', build_cmd, build_dir)
+			local term_cmd = string.format('9TermExec cmd="%s" dir=%s', build_cmd, build_dir)
 			vim.cmd(term_cmd)
 		end
 	end, { desc = "Build: Run project-specific command" })
