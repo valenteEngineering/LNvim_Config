@@ -25,33 +25,37 @@ local border_color = "#FF8C00" -- A nice orange, change to your liking
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = border_color })
 
 vim.api.nvim_set_hl(0, "StatusLine", {
-	fg = "#ffffff",
-	bg = "#1e1e2e",
-	underline = true,
-	sp = "#FF8C00",
+    fg = "#ffffff",
+    bg = "#1e1e2e",
+    underline = true,
+    sp = "#FF8C00",
 })
 
 vim.api.nvim_set_hl(0, "StatusLineNC", {
-	fg = "#aaaaaa",
-	bg = "#1e1e2e",
-	underline = true,
-	sp = "#FF8C00",
+    fg = "#aaaaaa",
+    bg = "#1e1e2e",
+    underline = true,
+    sp = "#FF8C00",
 })
 
 -- In init.lua
 vim.api.nvim_create_autocmd("VimEnter", {
-	pattern = "*",
-	callback = function()
-		if vim.bo.filetype == "NvimTree" then
-			-- Find the next available window that is not nvim-tree and focus it
-			local windows = vim.api.nvim_list_wins()
-			for _, win in ipairs(windows) do
-				local buf = vim.api.nvim_win_get_buf(win)
-				if vim.bo[buf].filetype ~= "NvimTree" then
-					vim.api.nvim_set_current_win(win)
-					return
-				end
-			end
-		end
-	end,
+    pattern = "*",
+    callback = function()
+        if vim.bo.filetype == "NvimTree" then
+            -- Find the next available window that is not nvim-tree and focus it
+            local windows = vim.api.nvim_list_wins()
+            for _, win in ipairs(windows) do
+                local buf = vim.api.nvim_win_get_buf(win)
+                if vim.bo[buf].filetype ~= "NvimTree" then
+                    vim.api.nvim_set_current_win(win)
+                    return
+                end
+            end
+        end
+    end,
 })
+
+-- Text Wrapping Auto Formatting
+vim.opt.textwidth = 0 -- disables hard wrapping
+vim.opt.wrap = true   -- soft wrap instead
